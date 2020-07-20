@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { routes } from './routes';
+import RouteLinks from './components/RouteLinks';
+import RoutesSwitch from './components/RoutesSwitch';
+import { makeStyles, Typography, Link as MuiLink } from '@material-ui/core';
+import Dashboard from './containers/dashboard/Dashboard';
+import { Link as RouterLink } from 'react-router-dom'; 
 
-function App() {
+const Link = props => (
+  <MuiLink component={RouterLink} color="inherit" underline="none" {...props} />
+);
+
+const TITLE = '中島　亮三';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: '100%', 
+  }, 
+}));
+
+const App = () => {
+  const classes = useStyles(); 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Dashboard 
+      className={classes.root}
+      header={<Typography component={Link} to="/">{TITLE}</Typography>}
+      drawer={({ onClose }) => <RouteLinks routes={routes} itemProps={{ onClick: onClose }}/>}
+      content={<RoutesSwitch routes={routes} />}
+    />
+  )
 }
 
-export default App;
+export default App
